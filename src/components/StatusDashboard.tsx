@@ -1,3 +1,5 @@
+import { TransactionStream } from './TransactionStream'
+
 export function StatusDashboard() {
   const services = [
     { name: 'API', status: 'operational', uptime: '99.9%' },
@@ -66,8 +68,11 @@ export function StatusDashboard() {
           </div>
         </div>
 
+        {/* Transaction Stream */}
+        <TransactionStream />
+
         {/* Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
           {/* Response Time */}
           <div className="border border-zinc-800/30 rounded-lg p-6 bg-zinc-950/50 backdrop-blur">
             <div className="flex items-center justify-between mb-4">
