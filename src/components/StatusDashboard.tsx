@@ -55,7 +55,7 @@ export function StatusDashboard() {
             {uptimeData.map((day) => (
               <div
                 key={day.day}
-                className="flex-1 h-8 bg-green-500/20 rounded-sm hover:bg-green-500/30 transition-colors cursor-pointer"
+                className="flex-1 h-8 bg-green-500 rounded-sm hover:bg-green-400 transition-colors cursor-pointer"
                 title={`Day ${day.day + 1}: ${day.uptime}%`}
               />
             ))}
@@ -81,7 +81,7 @@ export function StatusDashboard() {
                 return (
                   <div
                     key={i}
-                    className="flex-1 bg-blue-500/20 rounded-t"
+                    className="flex-1 bg-blue-500 rounded-t"
                     style={{ height: `${height}%` }}
                     title={`Hour ${i}: ${Math.round(40 + Math.random() * 20)}ms`}
                   />
@@ -103,7 +103,7 @@ export function StatusDashboard() {
                 return (
                   <div
                     key={i}
-                    className="flex-1 bg-purple-500/20 rounded-t"
+                    className="flex-1 bg-purple-500 rounded-t"
                     style={{ height: `${height}%` }}
                     title={`Hour ${i}: ${Math.round(1 + Math.random() * 3)} blocks`}
                   />
@@ -125,7 +125,7 @@ export function StatusDashboard() {
                 return (
                   <div
                     key={i}
-                    className="flex-1 bg-green-500/20 rounded-t"
+                    className="flex-1 bg-green-500 rounded-t"
                     style={{ height: `${height}%` }}
                     title={`Hour ${i}: ${(1.0 + Math.random() * 0.5).toFixed(1)}M`}
                   />
