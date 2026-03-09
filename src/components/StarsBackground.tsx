@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 interface Star {
   x: number
@@ -16,6 +16,7 @@ export function StarsBackground() {
   const starsRef = useRef<Star[]>([])
   const mouseRef = useRef({ x: 0, y: 0 })
   const centerRef = useRef({ x: 0, y: 0 })
+  const [, setTick] = useState(0)
 
   useEffect(() => {
     // Generate stars (discreet - 60 stars only)
@@ -79,6 +80,7 @@ export function StarsBackground() {
         star.y = 50 + Math.sin(star.angle) * (star.orbitRadius / 8)
       })
 
+      setTick(t => t + 1)
       animationId = requestAnimationFrame(animate)
     }
     animate()
@@ -107,7 +109,6 @@ export function StarsBackground() {
               top: `${star.y}%`,
               opacity: star.opacity,
               willChange: 'transform',
-              transition: 'left 0.1s linear, top 0.1s linear',
             }}
           />
         ))}
