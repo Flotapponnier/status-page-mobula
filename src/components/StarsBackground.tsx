@@ -19,16 +19,16 @@ export function StarsBackground() {
   const [, setTick] = useState(0)
 
   useEffect(() => {
-    // Generate stars (discreet - 60 stars only)
+    // Generate stars (120 stars)
     const stars: Star[] = []
     const colors = ['bg-zinc-600', 'bg-zinc-500', 'bg-zinc-400']
 
-    for (let i = 0; i < 60; i++) {
+    for (let i = 0; i < 120; i++) {
       stars.push({
         x: 50,
         y: 50,
-        size: Math.random() > 0.7 ? 2 : 1,
-        opacity: 0.2 + Math.random() * 0.4, // Max 0.6 opacity (discreet)
+        size: Math.random() > 0.5 ? 3 : 2,
+        opacity: 0.3 + Math.random() * 0.4,
         color: colors[Math.floor(Math.random() * colors.length)],
         orbitRadius: 50 + Math.random() * 350,
         orbitSpeed: 0.0002 + Math.random() * 0.0003,
@@ -63,21 +63,35 @@ export function StarsBackground() {
     let animationId: number
     const animate = () => {
       starsRef.current.forEach((star) => {
-        // Calculate distance from mouse
-        const dx = mouseRef.current.x - centerRef.current.x
-        const dy = mouseRef.current.y - centerRef.current.y
-        const distanceFromCenter = Math.sqrt(dx * dx + dy * dy)
+        // Update angle for orbit
+        star.angle += star.orbitSpeed
 
-        // Adjust orbit speed based on mouse proximity (subtle effect)
-        const influenceFactor = Math.min(distanceFromCenter / 400, 1)
-        const adjustedSpeed = star.orbitSpeed * (1 + influenceFactor * 0.3)
+        // Calculate base orbit position
+        const baseX = 50 + Math.cos(star.angle) * (star.orbitRadius / 8)
+        const baseY = 50 + Math.sin(star.angle) * (star.orbitRadius / 8)
 
-        // Update angle
-        star.angle += adjustedSpeed
+        // Calculate star position in pixels relative to center
+        const starX = centerRef.current.x + (baseX - 50) * 8
+        const starY = centerRef.current.y + (baseY - 50) * 8
 
-        // Calculate position
-        star.x = 50 + Math.cos(star.angle) * (star.orbitRadius / 8)
-        star.y = 50 + Math.sin(star.angle) * (star.orbitRadius / 8)
+        // Calculate distance from mouse to star
+        const dx = mouseRef.current.x - starX
+        const dy = mouseRef.current.y - starY
+        const distanceToMouse = Math.sqrt(dx * dx + dy * dy)
+
+        // If mouse is within 150px radius, push star away
+        const pushRadius = 150
+        if (distanceToMouse < pushRadius && distanceToMouse > 0) {
+          const pushStrength = (pushRadius - distanceToMouse) / pushRadius
+          const pushX = -(dx / distanceToMouse) * pushStrength * 5
+          const pushY = -(dy / distanceToMouse) * pushStrength * 5
+
+          star.x = baseX + pushX
+          star.y = baseY + pushY
+        } else {
+          star.x = baseX
+          star.y = baseY
+        }
       })
 
       setTick(t => t + 1)

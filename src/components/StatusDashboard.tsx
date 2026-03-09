@@ -11,17 +11,15 @@ export function StatusDashboard() {
   return (
     <div className="relative z-10 min-h-screen flex flex-col p-8">
       {/* Nav */}
-      <nav className="absolute top-8 right-8">
-        <img src="/logo.svg" alt="Mobula" className="h-8 w-auto" />
+      <nav className="absolute top-8 right-8 flex items-center gap-4">
+        <div className="text-right">
+          <h1 className="text-xl font-bold">Mobula Status</h1>
+          <p className="text-sm text-zinc-400">All systems operational</p>
+        </div>
+        <img src="/logo.svg" alt="Mobula" className="h-12 w-auto" />
       </nav>
 
-      <div className="max-w-4xl w-full mx-auto flex flex-col justify-center flex-1">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold mb-4">Mobula Status</h1>
-          <p className="text-zinc-400">All systems operational</p>
-        </div>
-
+      <div className="max-w-4xl w-full mx-auto flex flex-col justify-center flex-1 mt-24">
         {/* Services Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
           {services.map((service) => (
