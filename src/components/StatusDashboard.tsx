@@ -9,8 +9,13 @@ export function StatusDashboard() {
   ]
 
   return (
-    <div className="relative z-10 min-h-screen flex flex-col items-center justify-center p-8">
-      <div className="max-w-4xl w-full">
+    <div className="relative z-10 min-h-screen flex flex-col p-8">
+      {/* Nav */}
+      <nav className="absolute top-8 right-8">
+        <img src="/logo.svg" alt="Mobula" className="h-8 w-auto" />
+      </nav>
+
+      <div className="max-w-4xl w-full mx-auto flex flex-col justify-center flex-1">
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold mb-4">Mobula Status</h1>
