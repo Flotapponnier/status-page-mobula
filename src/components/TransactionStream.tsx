@@ -112,7 +112,7 @@ export function TransactionStream() {
   }, [])
 
   const getChainDisplay = (chainId: string) => {
-    if (chainId.includes('1')) return 'ETH'
+    if (chainId.includes(':1')) return 'ETH'
     if (chainId.includes('56')) return 'BSC'
     if (chainId.includes('8453')) return 'Base'
     if (chainId.includes('solana')) return 'Solana'
@@ -120,40 +120,41 @@ export function TransactionStream() {
   }
 
   const getChainColor = (chainId: string) => {
-    if (chainId.includes('1')) return 'text-blue-400'
+    if (chainId.includes(':1')) return 'text-blue-400'
     if (chainId.includes('56')) return 'text-yellow-400'
     if (chainId.includes('8453')) return 'text-blue-500'
     if (chainId.includes('solana')) return 'text-purple-400'
     return 'text-zinc-400'
   }
 
+  const getActionColor = (action: string) => {
+    return action === 'Buy' ? 'text-green-400' : 'text-red-400'
+  }
+
+  const getActionEmoji = (action: string) => {
+    return action === 'Buy' ? '🟢' : '🔴'
+  }
+
   return (
     <div className="border border-zinc-800/30 rounded-lg p-6 bg-zinc-950/50 backdrop-blur">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h3 className="text-lg font-medium mb-1">Live Transaction Stream</h3>
-          <p className="text-sm text-zinc-500">Real-time swaps across all chains</p>
+          <h3 className="text-lg font-medium mb-1">Live Router Swaps</h3>
+          <p className="text-sm text-zinc-500">Real-time trades routed through Mobula</p>
         </div>
         <div className="flex items-center gap-4">
           <div className="text-right">
-            <div className="text-2xl font-bold">{metrics.txPerSecond}</div>
+            <div className="text-2xl font-bold">{txPerSecond}</div>
             <div className="text-xs text-zinc-500">tx/s</div>
           </div>
           <div className="flex items-center gap-2">
-            <div className={`w-2 h-2 rounded-full ${metrics.connected ? 'bg-green-500 animate-pulse' : 'bg-red-500'}`}></div>
-            <span className="text-xs text-zinc-500">
-              {metrics.connected ? 'Connected' : 'Disconnected'}
-            </span>
+            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+            <span className="text-xs text-zinc-500">Live</span>
           </div>
         </div>
       </div>
 
       <div className="space-y-2 h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-zinc-800 scrollbar-track-transparent">
-        {transactions.length === 0 && (
-          <div className="text-center text-zinc-500 py-8">
-            {metrics.connected ? 'Waiting for transactions...' : 'Connecting...'}
-          </div>
-        )}
         {transactions.map((tx, index) => (
           <div
             key={tx.id}
@@ -163,20 +164,20 @@ export function TransactionStream() {
               opacity: Math.max(0.3, 1 - index * 0.02),
             }}
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 flex-1">
+              <span className="text-base">{getActionEmoji(tx.action)}</span>
               <div className={`text-xs font-mono font-semibold ${getChainColor(tx.chain)}`}>
                 {getChainDisplay(tx.chain)}
               </div>
-              <div className="text-sm text-zinc-400">
-                {tx.type === 'swap' && 'Swap'}
+              <div className={`text-sm font-medium ${getActionColor(tx.action)}`}>
+                {tx.action}
               </div>
+              <div className="text-sm text-zinc-400">{tx.token}</div>
             </div>
             <div className="flex items-center gap-3">
-              {tx.amountUSD !== undefined && (
-                <div className="text-sm font-medium text-zinc-300">
-                  ${tx.amountUSD.toLocaleString(undefined, { maximumFractionDigits: 0 })}
-                </div>
-              )}
+              <div className="text-sm font-medium text-zinc-300">
+                ${tx.amountUSD.toLocaleString(undefined, { maximumFractionDigits: 2 })}
+              </div>
               <div className="text-xs text-zinc-500">
                 {new Date(tx.timestamp).toLocaleTimeString()}
               </div>

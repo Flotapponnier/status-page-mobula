@@ -29,8 +29,11 @@ export function StatusDashboard() {
       </nav>
 
       <div className="max-w-4xl w-full mx-auto flex flex-col justify-center flex-1 mt-24">
+        {/* Transaction Stream */}
+        <TransactionStream />
+
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-16 mt-8">
           {services.map((service) => (
             <div
               key={service.name}
@@ -67,9 +70,6 @@ export function StatusDashboard() {
             <span>Today</span>
           </div>
         </div>
-
-        {/* Transaction Stream */}
-        <TransactionStream />
 
         {/* Metrics Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8">
